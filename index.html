@@ -1,0 +1,129 @@
+<html onclick="jump()">
+
+<head>
+	<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
+"></script>
+	<link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css
+" rel="stylesheet">
+	<style>
+		#game {
+			width: 500px;
+			height: 222px;
+			border: 1px solid black;
+			background-color: whitesmoke;
+		}
+
+		#character {
+			width: 20px;
+			height: 50px;
+			background-color: aqua;
+			position: relative;
+			top: 150px;
+			margin-left: 10px;
+			margin-top: 10px;
+		}
+
+		#dinoimg {
+			width: 50px;
+			height: auto;
+		}
+
+		#cactusimg {
+			width: 30px;
+			height: 25px;
+		}
+
+		.animate {
+			animation: jump 500ms;
+		}
+
+		@keyframes jump {
+			0% {
+				top: 150px;
+			}
+
+			30% {
+				top: 100px;
+			}
+
+			70% {
+				top: 100px;
+			}
+
+			100% {
+				top: 150px;
+			}
+		}
+
+		#block {
+			width: 20px;
+			height: 20px;
+			background-color: green;
+			position: relative;
+			top: 130px;
+			left: 480px;
+			animation: block 3s infinite linear;
+		}
+
+		@keyframes block {
+			0% {
+				left: 480px;
+			}
+
+			100% {
+				left: -480px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Click anywhere on the screen to jump</h1>
+	<h2>If you touch the block the game is over</h2>
+	<div id=game>
+		<div id=character><img id="dinoimg" src='dino.png' /></div>
+		<div id=block><img id="cactusimg" src='cactus.png' /></div>
+	</div>
+	<h3 id="scoretag">Score : <span id="score">0</span></h3>
+	<script>
+		window.onload = function () {
+			var counter = 0;
+			setInterval(function () {
+				counter++;
+				document.getElementById('score').innerHTML = counter;
+			}, 500);
+		};
+		var character = document.getElementById("character");
+		var block = document.getElementById("block");
+		function jump() {
+			if (character.classList != "animate") {
+				character.classList.add("animate");
+			}
+			setTimeout(function () {
+				character.classList.remove("animate");
+
+			}, 500);
+		}
+		var checkDead = setInterval(function () {
+			var counter = 0;
+			var characterTop = parseInt(window.getComputedStyle(character).getPropertyValue("top"));
+			var blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue("left"));
+			if (blockLeft < 20 && blockLeft > 0 && characterTop >= 130) {
+				block.style.animation = "none";
+				block.style.display = "none";
+				var finalScore = document.getElementById('score').innerHTML
+				document.getElementById('scoretag').style.display='none'
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'You Loose, your score is ' + finalScore
+				})
+			}
+		}, 10);
+	</script>
+</body>
+
+
+</html>
